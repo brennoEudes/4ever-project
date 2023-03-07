@@ -11,7 +11,7 @@ const vaultSchema = new Schema({
   deliveryDate: { type: Date },
   message: { type: String, required: true, maxlength: 100000 },
   attachedDocument: { type: String },
-  titular: { type: Types.ObjectsId, ref: "User" },
+  vaultCreator: { type: Types.ObjectsId, ref: "User" },
 });
 
 export const VaultModel = model("Vault", vaultSchema);
