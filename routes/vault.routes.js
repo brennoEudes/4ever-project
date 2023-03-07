@@ -1,17 +1,39 @@
 import express from "express";
 import { VaultModel } from "../model/vault.model.js";
+import { UserModel } from "../model/user.model.js";
+import isAuth from "../middlewares/isAuth.js";
+import attachCurrentUser from "../middlewares/attachCurrentUser.js";
 
 const vaultRouter = express.Router();
 
-vaultRouter.post("/create-vault", async (req, res) => {
-  try {
-    const newVault = await VaultModel.create(req.body);
-    return res.status(201).json(newVault);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
+vaultRouter.post(
+  "/create-vault",
+  isAuth,
+  attachCurrentUser,
+  async (req, res) => {
+    try {
+      const user = req.currentUser;
+
+      const newVault = await VaultModel.create({
+        ...req.body,
+        vaultCreator: user._id,
+      });
+
+      await UserModel.findByIdAndUpdate(
+        user._id,
+        {
+          $push: { vaultsCreated: newVault._id },
+        },
+        { runValidators: true }
+      );
+
+      return res.status(201).json(newVault);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
   }
-});
+);
 
 vaultRouter.get("/dashboard", async (req, res) => {
   try {
