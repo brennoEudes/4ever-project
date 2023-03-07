@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
   name: { type: String, required: true, trim: true },
@@ -12,7 +12,7 @@ const userSchema = new Schema({
   passwordHash: { type: String, required: true },
   role: { type: String, enum: ["ADMIN", "USER"], default: "USER" },
   createdAt: { type: Date, default: Date.now() },
-  vaultsCreated: []
+  vaultsCreated: [{type: Schema.Types.ObjectId, ref: "Vault"}],
 });
 
 export const UserModel = model("User", userSchema);

@@ -14,9 +14,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(`/api/user`, userRouter);
-app.use(`/api/uploadImage`, uploadImgRouter);
-app.use(`/api/vault`, vaultRouter);
+app.use(`/user`, userRouter);
+app.use(`/uploadImage`, uploadImgRouter);
+app.use(`/vault`, vaultRouter);
 
 app.listen(Number(process.env.PORT), () => {
   console.log(`Server up and running at port ${process.env.PORT}`);
