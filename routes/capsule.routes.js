@@ -26,7 +26,7 @@ capsuleRouter.post(
         },
         { runValidators: true }
       );
-     
+
       return res.status(201).json(newCapsule);
     } catch (error) {
       console.log(error);
@@ -37,13 +37,29 @@ capsuleRouter.post(
 
 capsuleRouter.get("/dashboard", isAuth, attachCurrentUser, async (req, res) => {
   try {
-
     const allCapsules = await CapsuleModel.find({});
 
     return res.status(200).json(allCapsules);
   } catch (error) {
     console.log(error);
-    return res.status(500).json("Capsulas não encontradas.");
+    return res.status(500).json("Capsules not found.");
+  }
+});
+
+capsuleRouter.get("/oneCapsule/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const oneCapsule = await CapsuleModel.findById(id);
+
+    if (!oneCapsule) {
+      return res.status(404).json("Capsule not found.");
+    }
+
+    return res.status(200).json(oneCapsule);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json("Error.");
   }
 });
 
@@ -58,7 +74,7 @@ capsuleRouter.put("/edit", isAuth, attachCurrentUser, async (req, res) => {
     return res.status(200).json(updatedCapsule);
   } catch (error) {
     console.log(error);
-    return res.status(500).json("Erro!");
+    return res.status(500).json("Error.");
   }
 });
 
@@ -71,7 +87,7 @@ capsuleRouter.delete("/delete", isAuth, attachCurrentUser, async (req, res) => {
     return res.status(200).json(deletedCapsule);
   } catch (error) {
     console.log(error);
-    return res.status(500).json("Erro!");
+    return res.status(500).json("Error.");
   }
 });
 
