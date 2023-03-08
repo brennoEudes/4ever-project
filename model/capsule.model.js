@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const vaultSchema = new Schema({
+const capsuleSchema = new Schema({
   title: { type: String, required: true, trim: true },
   description: { type: String, maxlength: 100 },
   receiverName: { type: String, required: true, trim: true },
@@ -9,7 +9,7 @@ const vaultSchema = new Schema({
   deliveryDate: { type: Date },
   message: { type: String, required: true, maxlength: 100000 },
   attachedDocument: { type: String },
-  vaultCreator: { type: Schema.Types.ObjectId, ref: "User" },
+  capsuleCreator: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
-export const VaultModel = model("Vault", vaultSchema);
+export const CapsuleModel = model("Capsule", capsuleSchema);

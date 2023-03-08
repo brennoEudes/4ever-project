@@ -12,7 +12,7 @@ const userSchema = new Schema({
   passwordHash: { type: String, required: true },
   role: { type: String, enum: ["ADMIN", "USER"], default: "USER" },
   createdAt: { type: Date, default: Date.now() },
-  vaultsCreated: [{type: Schema.Types.ObjectId, ref: "Vault"}],
+  capsulesCreated: [{type: Schema.Types.ObjectId, ref: "Capsule"}],
 });
 
 export const UserModel = model("User", userSchema);
