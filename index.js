@@ -2,7 +2,6 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
 import { connectToDB } from "./config/db.config.js";
-import { uploadImgRouter } from "./routes/uploadImage.routes.js";
 import { userRouter } from "./routes/user.routes.js";
 import capsuleRouter from "./routes/capsule.routes.js";
 
@@ -15,7 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use(`/user`, userRouter);
-app.use(`/uploadImage`, uploadImgRouter);
 app.use(`/capsule`, capsuleRouter);
 
 app.listen(Number(process.env.PORT), () => {

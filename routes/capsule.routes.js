@@ -38,9 +38,9 @@ capsuleRouter.post(
 
 //get.all
 //usuário precisa estar logado e só pode ver as suas capsulas no dash!
-// precisa do id no endpoint?
+// precisa do capsuleId no endpoint?
 capsuleRouter.get(
-  "/dashboard/:capsuleId",
+  "/dashboard",
   isAuth,
   attachCurrentUser,
   async (req, res) => {
@@ -77,7 +77,7 @@ capsuleRouter.get("/:capsuleId", async (req, res) => {
     return res.status(200).json(capsule);
   } catch (error) {
     console.log(error);
-    return res.status(500).json("Error.");
+    return res.status(500).json(error);
   }
 });
 
@@ -101,7 +101,7 @@ capsuleRouter.put(
       return res.status(200).json(updatedCapsule);
     } catch (error) {
       console.log(error);
-      return res.status(500).json("Error.");
+      return res.status(500).json(error);
     }
   }
 );
@@ -130,7 +130,7 @@ capsuleRouter.delete(
       return res.status(200).json(deletedCapsule);
     } catch (error) {
       console.log(error);
-      return res.status(500).json("Error.");
+      return res.status(500).json(error);
     }
   }
 );
