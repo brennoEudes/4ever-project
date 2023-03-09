@@ -6,7 +6,6 @@ import { uploadImgRouter } from "./routes/uploadImage.routes.js";
 import { userRouter } from "./routes/user.routes.js";
 import capsuleRouter from "./routes/capsule.routes.js";
 
-
 dotenv.config();
 connectToDB();
 
@@ -18,8 +17,6 @@ app.use(express.json());
 app.use(`/user`, userRouter);
 app.use(`/uploadImage`, uploadImgRouter);
 app.use(`/capsule`, capsuleRouter);
-
-
 
 app.listen(Number(process.env.PORT), () => {
   console.log(`Server up and running at port ${process.env.PORT}`);

@@ -7,7 +7,7 @@ const capsuleSchema = new Schema({
   capsuleReceiverEmail: { type: String, required: true, trim: true },
   capsuleReceiverPhone: { type: Number, required: true, trim: true },
   capsuleDeliveryDate: { type: Date },
-  capsuleMessage: { type: String, required: true, maxlength: 100000 },
+  capsuleSpecialMessage: { type: String, required: true, maxlength: 10000 },
   capsuleAttachedDocument: { type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png" },
   capsuleCreator: { type: Schema.Types.ObjectId, ref: "User" },
 });
