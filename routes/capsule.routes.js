@@ -39,31 +39,18 @@ capsuleRouter.post(
 //get.all
 //usuário precisa estar logado e só pode ver as suas capsulas no dash!
 // precisa do capsuleId no endpoint?
-capsuleRouter.get(
-  "/dashboard",
-  isAuth,
-  attachCurrentUser,
-  async (req, res) => {
-    try {
-      const allCapsules = await CapsuleModel.find(
-        //está correto esse filtro?
+capsuleRouter.get("/dashboard", isAuth, attachCurrentUser, async (req, res) => {
+  try {
+    const allCapsules = await CapsuleModel.find({
+      capsuleCreator: req.currentUser._id,
+    });
 
-        { capsuleCreator: req.currentUser._id },
-        { capsuleReceiverName: 0 },
-        { capsuleReceiverEmail: 0 },
-        { capsuleReceiverPhone: 0 },
-        { capsuleDeliveryDate: 0 },
-        { capsuleSpecialMessage: 0 },
-        { capsuleAttachedDocument: 0 }
-      );
-
-      return res.status(200).json(allCapsules);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Capsules not found.");
-    }
+    return res.status(200).json(allCapsules);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json("Capsules not found.");
   }
-);
+});
 
 // usuário logado vê capsule details!
 capsuleRouter.get("/:capsuleId", async (req, res) => {
