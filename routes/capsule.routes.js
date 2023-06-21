@@ -65,35 +65,40 @@ capsuleRouter.get(
   }
 );
 
-// usuário logado vê capsule details!
-capsuleRouter.get("/:capsuleId", async (req, res) => {
-  try {
-    const capsule = await CapsuleModel.findOne({
-      _id: req.params.capsuleId,
-    }).populate("capsuleCreator");
-
-    delete capsule._doc.capsuleCreator.passwordHash;
-
-    return res.status(200).json(capsule);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
-  }
-});
-
-// usuário logado edita uma cápsula dele!
-capsuleRouter.put(
+// Usuário logado vê capsule details!
+capsuleRouter.get(
   "/:capsuleId",
   isAuth,
   attachCurrentUser,
   async (req, res) => {
     try {
-      if (!req.currentUser.capsule.includes(req.params.capsuleId)) {
+      const capsule = await CapsuleModel.findOne({
+        _id: req.params.capsuleId,
+      }).populate("capsuleCreator");
+
+      delete capsule._doc.capsuleCreator.passwordHash; // evita que a senha seja enviada ao front!
+
+      return res.status(200).json(capsule);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+);
+
+// Usuário logado edita uma cápsula dele!
+capsuleRouter.put(
+  "/:capsuleId",
+  isAuth,
+  attachCurrentUser,
+  async (req, res) => {
+    try { /* Verifica se o id pertence ao usuário. Se falso, nega o acesso! */
+      if (!req.currentUser.capsule.includes(req.params.capsuleId)) { 
         return req.status(401).json("Access denied!");
       }
 
       const updatedCapsule = await CapsuleModel.findOneAndUpdate(
-        { _id: req.params._id },
+        { _id: req.params.capsuleId },
         { ...req.body },
         { new: true, runValidators: true }
       );
