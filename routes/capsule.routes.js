@@ -31,9 +31,9 @@ capsuleRouter.post(
         {
           $push: {
             capsulesCreated: newCapsule._id,
-          } /* info que será atualizada */,
+          } /* obj de atualização */,
         },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true /* obj de configuração */ }
       );
 
       return res.status(201).json(newCapsule);
@@ -92,8 +92,9 @@ capsuleRouter.put(
   isAuth,
   attachCurrentUser,
   async (req, res) => {
-    try { /* Verifica se o id pertence ao usuário. Se falso, nega o acesso! */
-      if (!req.currentUser.capsule.includes(req.params.capsuleId)) { 
+    try {
+      /* Verifica se o id pertence ao usuário. Se falso, nega o acesso! */
+      if (!req.currentUser.capsule.includes(req.params.capsuleId)) {
         return req.status(401).json("Access denied!");
       }
 
@@ -111,7 +112,7 @@ capsuleRouter.put(
   }
 );
 
-// usuário delete uma capsule!
+// Usuário deleta uma cápsula!
 capsuleRouter.delete(
   "/:capsuleId",
   isAuth,
@@ -122,16 +123,23 @@ capsuleRouter.delete(
         return req.status(401).json("Access denied!");
       }
 
+      // deleta uma caps
       const deletedCapsule = await CapsuleModel.deleteOne({
         _id: req.params.capsuleId,
       });
 
+      //remove o id da caps do usuário criador da caps
       await UserModel.findOneAndUpdate(
         { _id: req.currentUser._id },
-        { $pull: { capsulesCreated: req.params.capsuleId } },
+        {
+          $pull: {
+            capsulesCreated: req.params.capsuleId,
+          } /* remove caps do id */,
+        },
         { new: true, runValidators: true }
       );
 
+      // retorna status atualizado
       return res.status(200).json(deletedCapsule);
     } catch (error) {
       console.log(error);
