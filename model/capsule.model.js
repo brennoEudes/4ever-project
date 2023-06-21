@@ -1,5 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose"; // importação do Banco de dados
 
+// Modelo de cápsula
 const capsuleSchema = new Schema({
   capsuleTitle: { type: String, required: true, trim: true },
   capsuleDescription: { type: String, maxlength: 100 },
@@ -8,8 +9,18 @@ const capsuleSchema = new Schema({
   capsuleReceiverPhone: { type: Number, required: true, trim: true },
   capsuleDeliveryDate: { type: Date },
   capsuleSpecialMessage: { type: String, required: true, maxlength: 10000 },
-  capsuleAttachedDocument: { type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png" },
-  capsuleCreator: { type: Schema.Types.ObjectId, ref: "User" },
+  capsuleAttachedDocument: {
+    type: String,
+    default:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png",
+  },
+  capsuleCreator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  } /* Relacionamos o modelo de cápsula c/ o modelo do usuário. Usamos o msm nome do outro model para referenciar! */,
 });
 
-export const CapsuleModel = model("Capsule", capsuleSchema);
+export const CapsuleModel = model(
+  "Capsule" /* 1º parâmetro: nome do modelo */,
+  capsuleSchema /* 2º parâmetro: schema */
+); // exportação do modelo

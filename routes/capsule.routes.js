@@ -9,21 +9,29 @@ const capsuleRouter = express.Router();
 // usuário logado cria uma cápsula
 capsuleRouter.post(
   "/create-capsule",
-  isAuth,
-  attachCurrentUser,
+  isAuth /* middleware que valida se o token é válido (se usuário está logado)! Lembrando que é opcional dependendo da regra de negócio! */,
+  attachCurrentUser /* middleware que recebe a informação do anterior e identifica o usuário! */,
   async (req, res) => {
     try {
       const user = req.currentUser; //isso aqui não é facultativo?
 
+      // cria uma nova caps
       const newCapsule = await CapsuleModel.create({
-        ...req.body,
-        capsuleCreator: req.currentUser._id,
+        // objs q serão guardados no DB
+        ...req.body, // enviado no corpo da REQ
+        capsuleCreator:
+          req.currentUser
+            ._id /* pela chave capsuleCreator no capsuleModel, podemos acessar ao ID do usuário criador da caps, 
+            pois req.currentUser pois todas as info do user */,
       });
 
+      // referencia a caps criada acima ao usuário criador (coloca o ID na caps)
       await UserModel.findOneAndUpdate(
-        { _id: req.currentUser._id },
+        { _id: req.currentUser._id } /* obj de busca */,
         {
-          $push: { capsulesCreated: newCapsule._id },
+          $push: {
+            capsulesCreated: newCapsule._id,
+          } /* info que será atualizada */,
         },
         { new: true, runValidators: true }
       );
@@ -39,18 +47,23 @@ capsuleRouter.post(
 //get.all
 //usuário precisa estar logado e só pode ver as suas capsulas no dash!
 // precisa do capsuleId no endpoint?
-capsuleRouter.get("/dashboard", isAuth, attachCurrentUser, async (req, res) => {
-  try {
-    const allCapsules = await CapsuleModel.find({
-      capsuleCreator: req.currentUser._id,
-    });
+capsuleRouter.get(
+  "/dashboard",
+  isAuth /* Se tirar, todos usuários terão acesso */,
+  attachCurrentUser,
+  async (req, res) => {
+    try {
+      const allCapsules = await CapsuleModel.find({
+        capsuleCreator: req.currentUser._id,
+      });
 
-    return res.status(200).json(allCapsules);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json("Capsules not found.");
+      return res.status(200).json(allCapsules);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Capsules not found.");
+    }
   }
-});
+);
 
 // usuário logado vê capsule details!
 capsuleRouter.get("/:capsuleId", async (req, res) => {
