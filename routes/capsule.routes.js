@@ -8,7 +8,7 @@ const capsuleRouter = express.Router();
 
 // usuário logado cria uma cápsula
 capsuleRouter.post(
-  "/create-capsule",
+  "/",
   isAuth /* middleware que valida se o token é válido (se usuário está logado)! Lembrando que é opcional dependendo da regra de negócio! */,
   attachCurrentUser /* middleware que recebe a informação do anterior e identifica o usuário! */,
   async (req, res) => {

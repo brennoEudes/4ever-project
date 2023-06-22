@@ -6,7 +6,7 @@ const capsuleSchema = new Schema({
   capsuleDescription: { type: String, maxlength: 100 },
   capsuleReceiverName: { type: String, required: true, trim: true },
   capsuleReceiverEmail: { type: String, required: true, trim: true },
-  capsuleReceiverPhone: { type: Number, required: true, trim: true },
+  capsuleReceiverPhone: { type: Number, trim: true },
   capsuleDeliveryDate: { type: Date },
   capsuleSpecialMessage: { type: String, required: true, maxlength: 10000 },
   capsuleAttachedDocument: {
