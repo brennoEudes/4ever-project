@@ -17,7 +17,7 @@ const capsuleSchema = new Schema({
   capsuleCreator: {
     type: Schema.Types.ObjectId,
     ref: "User",
-  } /* Relacionamos o modelo de cápsula c/ o modelo do usuário. Usamos o msm nome do outro model para referenciar! */,
+  } /* Aqui relacionamos o modelo de cápsula c/ o modelo do usuário. Usamos o msm nome do outro model para referenciar! */,
 });
 
 export const CapsuleModel = model(
