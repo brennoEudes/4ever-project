@@ -8,8 +8,10 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+// criando instância Cloudinary
 const cloudinaryInst = cloudinary.v2;
 
+// configuração upload img. (obs: salvar dados Cloudinary no .env)
 cloudinaryInst.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
