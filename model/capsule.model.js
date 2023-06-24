@@ -12,7 +12,7 @@ const capsuleSchema = new Schema({
   capsuleAttachedDocument: {
     type: String,
     default:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png",
+      "https://res.cloudinary.com/dptsbfvan/image/upload/v1679533946/pictures/file_nqffuu.png",
   },
   capsuleCreator: {
     type: Schema.Types.ObjectId,
