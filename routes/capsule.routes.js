@@ -27,13 +27,13 @@ capsuleRouter.post(
 
       // referencia a caps criada acima ao usuário criador (coloca o ID na caps)
       await UserModel.findOneAndUpdate(
-        { _id: req.currentUser._id } /* obj de busca */,
+        { _id: req.currentUser._id } /* 1º obj de busca */,
         {
           $push: {
             capsulesCreated: newCapsule._id,
-          } /* obj de atualização */,
+          } /* 2º obj de atualização */,
         },
-        { new: true, runValidators: true /* obj de configuração */ }
+        { new: true, runValidators: true /* 3º obj de configuração */ }
       );
 
       return res.status(201).json(newCapsule);
